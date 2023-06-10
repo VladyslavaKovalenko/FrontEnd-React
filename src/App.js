@@ -8,6 +8,7 @@ import Nav from './Nav';
 import Home from './Pages/Home/Home';
 import Popular from './Pages/Popular/Popular';
 import Battle from './Pages/Battle/Battle';
+import Results from './Pages/Battle/Results';
 
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "battle",
         element: <Battle/>,
+      },
+      {
+        path: "battle/results",
+        element: <Results/>,
       },
       {
         path: "*",
