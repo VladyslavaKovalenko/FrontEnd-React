@@ -1,15 +1,21 @@
-import { useState, useEffect } from "react";
+import {useEffect } from "react";
+import { getRepos } from "../../state/popular/popular.thunk";
 import { useNavigate, useLocation } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux"
+import { updateLanguage } from "../../state/popular/popular.action";
 
 const languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 
 const Tab = () => {
+
+  const dispatch =useDispatch()
+  const selectedLanguage=useSelector(state=>state.popularReducer.selectedLanguage)
+
   const navigate = useNavigate();
   const location = useLocation();
+
   const hashParams = new URLSearchParams(location.hash.slice(1));
   const selectedLanguageFromHash = hashParams.get('language');
-
-  const [selectedLanguage, setselectedLanguage] = useState(selectedLanguageFromHash || 'All');
  
   useEffect(() => {
         const updatedHashParams = new URLSearchParams();
@@ -18,11 +24,10 @@ const Tab = () => {
         navigate({ hash: updatedHash, replace: true });
       }, [navigate, selectedLanguage]);
 
-  const handleLanguageClick = language => {
-    if (language !== selectedLanguage) {
-      setselectedLanguage(language);
-    }
-  };
+  useEffect(()=>{
+    dispatch(getRepos(selectedLanguage))
+    dispatch(updateLanguage(selectedLanguageFromHash ||'All'))
+  }, [])
 
   return (
     <ul className="languages">
@@ -30,7 +35,7 @@ const Tab = () => {
         <li
           key={index}
           style={{ color: language === selectedLanguage ? '#d0021b' : '#000000' }}
-          onClick={() => handleLanguageClick(language)}
+          onClick={(() => dispatch(getRepos(language)))}
         >
           {language}
         </li>

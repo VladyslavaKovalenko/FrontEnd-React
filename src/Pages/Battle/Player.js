@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import PlayerPreview from "./PlayerPreview";
-import { memo } from "react";
+import { useSelector } from "react-redux";
 
-const Player =memo(({label, score, profile})=>{
+const Player =({label})=>{
+
+    const profile = useSelector((state) => state.battleReducer.profile[label]);
+    const score = useSelector((state) => state.battleReducer.score[label]);
+    
     return(
         <div>
             <h1 className="header">{label}</h1>
@@ -22,6 +26,6 @@ const Player =memo(({label, score, profile})=>{
             </PlayerPreview>
         </div>
     )
-})
+}
 
 export default Player;
