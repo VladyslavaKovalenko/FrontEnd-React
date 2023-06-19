@@ -1,13 +1,16 @@
 import { useState, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePlayerData } from "../../state/battle/battle.action";
 
-const PlayerInput =({id, label, onSubmit})=>{
+const PlayerInput =({id, label})=>{
 
-    const[userName, setUserName] = useState('')
+    const dispatch = useDispatch();
+    const [userName, setUserName] = useState("");
 
-   const handleSubmit=(event)=>{
-        event.preventDefault()
-        onSubmit(id, userName)
-    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(updatePlayerData(id, userName));
+    };
 
     return(
         <form className="column" onSubmit={handleSubmit}>
@@ -19,7 +22,8 @@ const PlayerInput =({id, label, onSubmit})=>{
             autoComplete="off"
             value={userName}
             onChange={(event)=>
-                setUserName(event.target.value)}
+               setUserName(event.target.value)
+            }
             />
            <button
            className="button"

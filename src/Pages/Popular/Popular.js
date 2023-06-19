@@ -4,8 +4,8 @@ import Repositories from "./Repositories";
 const Popular = () =>{
     return(
         <>
-        <Tab />
-        <Repositories/>
+            <Tab />
+            <Repositories/>
         </>
     )
 }
