@@ -2,6 +2,7 @@ import { fetchPopularrepos } from "../../api"
 import { getReposFailureAction, getReposLoadingAction, getReposSuccessAction, updateLanguage } from "./popular.action"
 import { updateBattleResults } from "../battle/battle.action"
 import { makeBattle } from "../../api"
+import { setLoading } from "../battle/battle.action"
 
 export const getRepos =(selectedLanguage)=>(dispatch)=>{
     dispatch(getReposLoadingAction())
@@ -12,17 +13,16 @@ export const getRepos =(selectedLanguage)=>(dispatch)=>{
     .catch(error=>dispatch(getReposFailureAction(error)))
 }
 
-export const performBattle = (location, playerOneName, playerTwoName) => {
-    return (dispatch) => {
+export const showBattle = (playerOneName, playerTwoName) => (dispatch) => {
 
-      const params = new URLSearchParams(location.search);
-  
-      makeBattle([playerOneName, playerTwoName])
-        .then(([winner, loser]) => {
-          dispatch(updateBattleResults(winner, loser));
-        })
-        .catch((error) => {
-          throw new Error(error)
-        })
-    };
-  };
+  dispatch(setLoading(true));
+
+  makeBattle([playerOneName, playerTwoName])
+    .then(([winner, loser]) => {
+      dispatch(updateBattleResults(winner, loser));
+      dispatch(setLoading(false));
+    })
+    .catch((error) => {
+      dispatch(setLoading(false));
+    })
+};

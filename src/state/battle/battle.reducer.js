@@ -1,4 +1,4 @@
-import { UPDATE_PLAYER_DATA, RESET_PLAYER_DATA, UPDATE_BATTLE_RESULTS } from "./battle.constants";
+import { UPDATE_PLAYER_DATA, RESET_PLAYER_DATA, UPDATE_BATTLE_RESULTS, SET_LOADING } from "./battle.constants";
 
 const initialState = {
     playerData: {
@@ -11,20 +11,25 @@ const initialState = {
         winner: null,
         loser: null,
       },
+    loading: true
   };
   
 export const battleReducer = (state = initialState, action) => {
     switch (action.type) {
       case UPDATE_PLAYER_DATA: {
         const { id, userName } = action.payload;
+        console.log(action.payload, `action payload reducer`)
         return {
           ...state,
-          playerData: {
+          playerData: { 
+            // нужно для того, чтобы предыдущие данные не сбрасывались и сохранялтсь с новыми
+            ...state.playerData,
             [`${id}Name`]: userName,
             [`${id}Image`]: `https://github.com/${userName}.png?size200`,
-          },
+          }, 
         };
-      }
+        
+      } 
       case RESET_PLAYER_DATA: {
         const { id } = action.payload;
         return {
@@ -40,10 +45,16 @@ export const battleReducer = (state = initialState, action) => {
             ...state,
             battle: {
               ...state.battle,
-              winner: action.winner,
-              loser: action.loser,
+              winner:action.winner,
+              loser: action.loser
             },
           };
+    }
+    case SET_LOADING: {
+      return {
+        ...state,
+        loading: action.loading
+      };
     }
       default:
         return state;
