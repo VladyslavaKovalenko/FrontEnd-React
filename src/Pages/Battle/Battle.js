@@ -9,15 +9,17 @@ const Battle = () =>{
 
     const dispatch = useDispatch();
     const playerData = useSelector((state) => state.battleReducer.playerData);
+    console.log(playerData, `playerData Battle`)
 
     const handleSubmit = (id, userName) => {
-    dispatch(updatePlayerData(id, userName));
+    dispatch(updatePlayerData(id, userName))
+    console.log(dispatch(updatePlayerData(id, userName)), `handleSubmit battle`)
   };
 
   const handleReset = (id) => {
-    dispatch(resetPlayerData(id));
-  };
-
+    dispatch(resetPlayerData(id))
+  }
+  console.log(playerData.playerOneImage, `layerData.playerOneImage`);
     return(
         <div>
         <div className="row">
@@ -29,7 +31,7 @@ const Battle = () =>{
                 <button className="reset" onClick={()=>handleReset("playerOne")}>Reset</button>
                 </PlayerPreview>:
              <PlayerInput
-                id='PlayerOne'
+                id='playerOne'
                 label='Player 1'
                 onSubmit ={handleSubmit}
             /> }
@@ -42,7 +44,7 @@ const Battle = () =>{
             <button className="reset" onClick={()=>handleReset('playerTwo')}>Reset</button>
            </PlayerPreview>:
              <PlayerInput 
-                id='PlayerTwo'
+                id='playerTwo'
                 label='Player 2'
                 onSubmit ={handleSubmit}
             />}
@@ -58,8 +60,6 @@ const Battle = () =>{
             null
     }
         </div>
-       
-        
     )
 }
 
