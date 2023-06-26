@@ -1,17 +1,15 @@
 import { useState} from "react";
 import { useDispatch } from "react-redux";
-import { updatePlayerData } from "../../state/battle/battle.action";
+import { updatePlayerData } from "../../state/battle/battle.slice";
 
 const PlayerInput =({id, label})=>{
 
     const dispatch = useDispatch();
     const [userName, setUserName] = useState('');
-    console.log(userName, `username playerInput`)
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(updatePlayerData(id, userName));
-        console.log(dispatch(updatePlayerData(id, userName)), `handleSubmit playerInput`)
+        dispatch(updatePlayerData({ id, userName }));
     };
 
     return(

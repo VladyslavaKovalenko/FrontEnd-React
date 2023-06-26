@@ -2,14 +2,15 @@ import {useEffect } from "react";
 import { getRepos } from "../../state/popular/popular.thunk";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux"
-import { updateLanguage } from "../../state/popular/popular.action";
+// import { updateLanguage } from "../../state/popular/popular.action";
+import { updateLanguage } from "../../state/popular/popular.slice";
 
 const languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 
 const Tab = () => {
 
   const dispatch =useDispatch()
-  const selectedLanguage=useSelector(state=>state.popularReducer.selectedLanguage)
+  const selectedLanguage=useSelector(state=>state.popular.selectedLanguage)
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +27,7 @@ const Tab = () => {
 
   useEffect(()=>{
     dispatch(getRepos(selectedLanguage))
-    dispatch(updateLanguage(selectedLanguageFromHash ||'All'))
+    dispatch(getRepos(selectedLanguageFromHash ||'All'))
   }, [])
 
   return (
