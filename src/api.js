@@ -27,7 +27,7 @@ const calculateScore=(profile, repos)=>{
     return followers+totalStar
 }
 
-const getUserData=(username)=>{
+export const getUserData=(username)=>{
     return Promise.all([
         getProfile(username),
         getRepos(username)
@@ -39,6 +39,7 @@ const getUserData=(username)=>{
     })
     .catch(handleError)
 }
+
 
 const sortPlayer=(players)=>{
     return players.sort((a, b)=> b.score-a.score)

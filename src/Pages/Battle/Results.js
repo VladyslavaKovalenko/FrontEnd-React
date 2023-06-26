@@ -2,23 +2,29 @@ import { useEffect, useState } from "react";
 import Player from "./Player";
 import { useSelector, useDispatch } from 'react-redux';
 import { showBattle } from "../../state/popular/popular.thunk";
+import { updatePlayerData, resetPlayerData, updateBattleResults, setLoading } from "../../state/battle/battle.slice";
 
 const Results =()=>{
-    const[error, setError] = useState(null)
+  
+    const [error, setError] = useState(null);
 
-    const dispatch = useDispatch()
-    const winner = useSelector(state=>state.battleReducer.battle.winner)
-    const loser = useSelector(state=>state.battleReducer.battle.loser)
+    const dispatch = useDispatch();
+    const { winner, loser } = useSelector((state) => state.battle.battle);
 
-    const playerOneName = useSelector(state=>state.battleReducer.playerData.playerOneName)
-    const playerTwoName = useSelector(state=>state.battleReducer.playerData.playerTwoName)
-    
-    const battle = useSelector(state=>state.battleReducer.battle)
-    const loading =useSelector(state=>state.battleReducer.loading)
+    const playerOneName = useSelector(
+      (state) => state.battle.playerData.playerOneName
+    );
+    const playerTwoName = useSelector(
+      (state) => state.battle.playerData.playerTwoName
+    );
+  
+    const loading = useSelector((state) => state.battle.loading);
+  
 
     useEffect(() => {
-        dispatch(showBattle(playerOneName, playerTwoName))
-      }, []);
+      dispatch(showBattle( {playerOneName, playerTwoName} ));
+    }, []);
+
 
     if(loading){
         return <p>Loading...</p>
@@ -31,15 +37,15 @@ const Results =()=>{
     return(
         <div className="row">
             
-           {winner&&loser?
+           {winner && loser?
            <>
            <Player
            label ='Winner'
-           player={battle.winner} 
+           player={winner} 
        />
            <Player
                label ='Loser'
-               player={battle.loser} 
+               player={loser} 
            /> 
            </>
            :null}

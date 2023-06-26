@@ -1,28 +1,31 @@
 import { fetchPopularrepos } from "../../api"
-import { getReposFailureAction, getReposLoadingAction, getReposSuccessAction, updateLanguage } from "./popular.action"
-import { updateBattleResults } from "../battle/battle.action"
-import { makeBattle } from "../../api"
-import { setLoading } from "../battle/battle.action"
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import { updateLanguage } from "./popular.slice"
+import { updateBattleResults, setLoading } from "../battle/battle.slice"
+import { makeBattle, getUserData } from "../../api"
 
-export const getRepos =(selectedLanguage)=>(dispatch)=>{
-    dispatch(getReposLoadingAction())
+export const getRepos=createAsyncThunk(
+  'popular/getRepos',
+  async(selectedLanguage, {rejectWithValue, dispatch})=>{
     dispatch(updateLanguage(selectedLanguage))
+    try{
+      return await fetchPopularrepos(selectedLanguage)
+    }
+    catch(error){
+      return rejectWithValue(error)
+    }
+  }
+)
 
-    fetchPopularrepos(selectedLanguage)
-    .then(data=>dispatch(getReposSuccessAction(data)))
-    .catch(error=>dispatch(getReposFailureAction(error)))
-}
-
-export const showBattle = (playerOneName, playerTwoName) => (dispatch) => {
-
-  dispatch(setLoading(true));
-
-  makeBattle([playerOneName, playerTwoName])
-    .then(([winner, loser]) => {
-      dispatch(updateBattleResults(winner, loser));
+export const showBattle = createAsyncThunk(
+  'battle/showBattle',
+  async ( payload, { dispatch }) => {
+    const { playerOneName, playerTwoName } = payload;
+    try {
+      const [ winner, loser ] = await makeBattle([playerOneName, playerTwoName]);
+      dispatch(updateBattleResults({ winner, loser })); 
       dispatch(setLoading(false));
-    })
-    .catch((error) => {
-      dispatch(setLoading(false));
-    })
-};
+    } catch (error) {
+    }
+  }
+);

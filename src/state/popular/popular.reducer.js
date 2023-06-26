@@ -39,3 +39,5 @@ export const popularReducer =(state  = initialState, action)=>{
             return state
     }
 }
+
+export default popularReducer;

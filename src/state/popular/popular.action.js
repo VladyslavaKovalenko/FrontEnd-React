@@ -1,9 +1,9 @@
 import { GET_REPOS_FAILURE, GET_REPOS_LOADING, GET_REPOS_SUCCESS, SET_SELECTED_LANGUAGE } from "./popular.constants"
 
-export const updateLanguage=(payload)=>({
-    type:SET_SELECTED_LANGUAGE,
-    payload
-})
+// export const updateLanguage=(payload)=>({
+//     type:SET_SELECTED_LANGUAGE,
+//     payload
+// })
 
 export const getReposLoadingAction=()=>({
     type: GET_REPOS_LOADING

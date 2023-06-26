@@ -2,24 +2,23 @@ import PlayerInput from "./PlayerInput";
 import PlayerPreview from "./PlayerPreview";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updatePlayerData, resetPlayerData } from "../../state/battle/battle.action";
+import { updatePlayerData, resetPlayerData } from "../../state/battle/battle.slice";
 
 
 const Battle = () =>{
 
     const dispatch = useDispatch();
-    const playerData = useSelector((state) => state.battleReducer.playerData);
-    console.log(playerData, `playerData Battle`)
+    
+    const playerData = useSelector((state) => state.battle.playerData);
 
     const handleSubmit = (id, userName) => {
     dispatch(updatePlayerData(id, userName))
-    console.log(dispatch(updatePlayerData(id, userName)), `handleSubmit battle`)
-  };
+    }
 
   const handleReset = (id) => {
     dispatch(resetPlayerData(id))
-  }
-  console.log(playerData.playerOneImage, `layerData.playerOneImage`);
+    }
+
     return(
         <div>
         <div className="row">
