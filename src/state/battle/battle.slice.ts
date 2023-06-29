@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, AnyAction, createSlice, Slice } from "@reduxjs/toolkit";
 import { showBattle } from "../popular/popular.thunk";
+import { IBattleStore } from "../../types/battle.types";
 
-const initialState = {
+const initialState:IBattleStore = {
     playerData: {
       playerOneName: "",
       playerTwoName: "",
@@ -16,11 +17,11 @@ const initialState = {
     error: null
 };
 
-const battleSlice = createSlice({
+const battleSlice:Slice<IBattleStore> = createSlice({
     name: 'battle',
     initialState,
     reducers:{
-        updatePlayerData:(state, action)=>{
+        updatePlayerData:(state:IBattleStore, action:AnyAction):void=>{
             const { id, userName } = action.payload;
             state.playerData = {
                 ...state.playerData,
@@ -28,7 +29,7 @@ const battleSlice = createSlice({
                 [`${id}Image`]: `https://github.com/${userName}.png?size200`,
             };
            },
-        resetPlayerData:(state, action)=>{
+        resetPlayerData:(state:IBattleStore, action:AnyAction):void=>{
             const { id } = action.payload;
             state.playerData = {
                 ...state.playerData,
@@ -36,7 +37,7 @@ const battleSlice = createSlice({
                 [`${id}Image`]: null,
         };
         },
-        updateBattleResults: (state, action) => {
+        updateBattleResults: (state:IBattleStore, action:AnyAction):void => {
           const { winner, loser } = action.payload;
                   state.battle = {
                     ...state.battle,
@@ -44,22 +45,22 @@ const battleSlice = createSlice({
                     loser,
       };
         },
-          },
-          setLoading: (state, action) => {
+        setLoading: (state:IBattleStore, action:AnyAction):void => {
             state.loading = action.payload;
-          },
+          }
+        },
     
-    extraReducers: (builder) => {
+    extraReducers: (builder:ActionReducerMapBuilder<IBattleStore>):void => {
         builder
-          .addCase(showBattle.pending, (state) => {
+          .addCase(showBattle.pending, (state:IBattleStore):void => {
             state.loading = true;
             state.error = null;
           })
-          .addCase(showBattle.fulfilled, (state, action) => {
+          .addCase(showBattle.fulfilled, (state:IBattleStore):void => {
             state.loading = false;
             state.error = null;
           })
-          .addCase(showBattle.rejected, (state, action) => {
+          .addCase(showBattle.rejected, (state:IBattleStore, action:AnyAction):void => {
             state.loading = false;
             state.error = action.error.message;
           });

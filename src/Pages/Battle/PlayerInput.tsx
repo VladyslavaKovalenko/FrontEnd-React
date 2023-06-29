@@ -1,13 +1,19 @@
-import { useState} from "react";
+import { ChangeEvent, FC, FormEvent, ReactElement, useState} from "react";
 import { useDispatch } from "react-redux";
 import { updatePlayerData } from "../../state/battle/battle.slice";
 
-const PlayerInput =({id, label})=>{
+interface IProp{
+    id:string,
+    label:string,
+    onSubmit:(id:string, userName:string)=>void
+}
+
+const PlayerInput:FC<IProp> =({id, label, onSubmit}):ReactElement=>{
 
     const dispatch = useDispatch();
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState<string>('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:FormEvent) => {
         event.preventDefault();
         dispatch(updatePlayerData({ id, userName }));
     };
@@ -21,7 +27,7 @@ const PlayerInput =({id, label})=>{
             placeholder="Github UserName"
             autoComplete="off"
             value={userName}
-            onChange={(event)=>
+            onChange={(event:ChangeEvent<HTMLInputElement>)=>
                setUserName(event.target.value)
             }
             />

@@ -1,6 +1,12 @@
-import { Children } from "react"
+import { Children, FC, ReactElement } from "react"
 
-const PlayerPreview =({avatar, userName, children})=>{
+interface IProp{
+    avatar:string,
+    userName:string,
+    children: React.ReactNode
+}
+
+const PlayerPreview:FC<IProp> =({avatar, userName, children}):ReactElement=>{
     return(
         <div className="column">
                 <img src={avatar} alt ='Avatar' className="avatar"/>

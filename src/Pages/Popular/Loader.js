@@ -1,7 +1,6 @@
-import React from "react";
 import LoadingOverlay from 'react-loading-overlay-ts';
 
-const LoaderOverlay = ({ active }) => {
+const LoaderOverlay= ({active}) => {
   const overlayStyles = {
     wrapper: {
       top: 0,
