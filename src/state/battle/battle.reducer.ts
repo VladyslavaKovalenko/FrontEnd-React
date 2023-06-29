@@ -1,6 +1,8 @@
 import { UPDATE_PLAYER_DATA, RESET_PLAYER_DATA, UPDATE_BATTLE_RESULTS, SET_LOADING } from "./battle.constants";
+import { IBattleStore } from "../../types/battle.types";
+import { AnyAction } from "redux";
 
-const initialState = {
+const initialState: IBattleStore = {
     playerData: {
       playerOneName: "",
       playerTwoName: "",
@@ -11,10 +13,12 @@ const initialState = {
         winner: null,
         loser: null,
       },
-    loading: true
+    loading: true,
+    error:null
+    
   };
   
-export const battleReducer = (state = initialState, action) => {
+export const battleReducer = (state:IBattleStore = initialState, action:AnyAction) => {
     switch (action.type) {
       case UPDATE_PLAYER_DATA: {
         const { id, userName } = action.payload;

@@ -1,38 +1,41 @@
-import {useEffect } from "react";
+import {FC, ReactElement, useEffect } from "react";
 import { getRepos } from "../../state/popular/popular.thunk";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux"
-// import { updateLanguage } from "../../state/popular/popular.action";
-import { updateLanguage } from "../../state/popular/popular.slice";
+import { AppDispatch, RootState } from "../../state/store";
+import { NavigateParams } from "../../types/popular.types";
 
-const languages = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
+const languages:string[] = ['All', 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 
-const Tab = () => {
+const Tab:FC = ():ReactElement => {
 
-  const dispatch =useDispatch()
-  const selectedLanguage=useSelector(state=>state.popular.selectedLanguage)
+  const dispatch =useDispatch<AppDispatch>()
+
+  const selectedLanguage:string =useSelector((state:RootState):string=>state.popular.selectedLanguage)
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const hashParams = new URLSearchParams(location.hash.slice(1));
-  const selectedLanguageFromHash = hashParams.get('language');
+  const selectedLanguageFromHash: string|null = hashParams.get('language');
  
-  useEffect(() => {
+  useEffect(():void => {
         const updatedHashParams = new URLSearchParams();
         updatedHashParams.set('language', selectedLanguage);
-        const updatedHash = `#${updatedHashParams.toString()}`;
-        navigate({ hash: updatedHash, replace: true });
+        const updatedHash:string = `#${updatedHashParams.toString()}`;
+        // navigate({ hash: updatedHash, replace: true }); replace with
+        const navigateParams: NavigateParams = { hash: updatedHash, replace: true };
+        navigate(navigateParams);
       }, [navigate, selectedLanguage]);
 
-  useEffect(()=>{
+  useEffect(():void=>{
     dispatch(getRepos(selectedLanguage))
     dispatch(getRepos(selectedLanguageFromHash ||'All'))
   }, [])
 
   return (
     <ul className="languages">
-      {languages.map((language, index) => (
+      {languages.map((language:string, index:number):ReactElement => (
         <li
           key={index}
           style={{ color: language === selectedLanguage ? '#d0021b' : '#000000' }}

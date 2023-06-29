@@ -1,14 +1,17 @@
+import { isImportClause } from "typescript"
 import { SET_SELECTED_LANGUAGE } from "./popular.constants"
 import { GET_REPOS_FAILURE, GET_REPOS_LOADING, GET_REPOS_SUCCESS } from "./popular.constants"
+import { IPopularStore } from "../../types/popular.types"
+import { AnyAction } from "redux"
 
-const initialState={
+const initialState:IPopularStore={
     selectedLanguage: 'All',
     loading: false,
     repos: [],
     error: null
 }
 
-export const popularReducer =(state  = initialState, action)=>{
+export const popularReducer =(state:IPopularStore  = initialState, action:AnyAction) : IPopularStore=>{
     switch(action.type){
         case SET_SELECTED_LANGUAGE:
             return{

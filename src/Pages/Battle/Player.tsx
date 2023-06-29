@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import PlayerPreview from "./PlayerPreview";
-import { memo } from "react";
+import { FC, ReactElement, memo } from "react";
+import { IRepos } from "../../types/popular.types";
 
-const Player =memo(({label, player})=>{
+interface IProp{
+    label:string,
+    player: IRepos,
+}
+
+const Player:FC<IProp> =memo(({label, player}):ReactElement=>{
     return(
         <div>
             <h1 className="header">{label}</h1>
             <h3 style={{textAlign:'center'}}>Score: {player.score}</h3>
-            <PlayerPreview avatar={player.profile.avatar_url} username={player.profile.login}>
+            <PlayerPreview avatar={player.profile.avatar_url} userName={player.profile.login}>
                  <ul className="space-list-items">
                     {player.profile.name?<li>{player.profile.name}</li>:null}
                     {player.profile.location?<li>{player.profile.location}</li>:null}

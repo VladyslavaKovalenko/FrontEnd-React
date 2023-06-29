@@ -3,19 +3,27 @@ import PlayerPreview from "./PlayerPreview";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updatePlayerData, resetPlayerData } from "../../state/battle/battle.slice";
+import { FC, ReactElement } from "react";
+import { AppDispatch, RootState } from "../../state/store";
 
+interface PlayerData {
+    playerOneName: string,
+    playerOneImage: string | null,
+    playerTwoName: string,
+    playerTwoImage: string | null,
+  }
 
-const Battle = () =>{
+const Battle :FC= () :ReactElement=>{
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     
-    const playerData = useSelector((state) => state.battle.playerData);
+    const playerData:PlayerData = useSelector<RootState, PlayerData>((state) => state.battle.playerData);
 
-    const handleSubmit = (id, userName) => {
-    dispatch(updatePlayerData(id, userName))
+    const handleSubmit = (id:string, userName:string):void => {
+    dispatch(updatePlayerData({id, userName}))
     }
 
-  const handleReset = (id) => {
+  const handleReset = (id:string):void => {
     dispatch(resetPlayerData(id))
     }
 
