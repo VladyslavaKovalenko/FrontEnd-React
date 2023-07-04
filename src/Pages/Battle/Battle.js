@@ -19,7 +19,7 @@ const Battle = () =>{
             [`${id}Name`]: userName,
             [`${id}Image`]: `https://github.com/${userName}.png?size200`,
         }))    
-        console.log(userName);
+ 
    }
 
    const handleReset =(id)=>{
